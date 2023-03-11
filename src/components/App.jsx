@@ -16,18 +16,22 @@ const initialContacts = [
 ];
 
 
-const getInitialContacts = () => {
-  const savedContacts = localStorage.getItem('contacts');
-  if (savedContacts !== null) {
-    const parsedContacts = JSON.parse(savedContacts);
-    return parsedContacts;
-  }
-  return initialContacts;
-};
+// const getInitialContacts = () => {
+//   const savedContacts = localStorage.getItem('contacts');
+//   if (savedContacts !== null) {
+//     const parsedContacts = JSON.parse(savedContacts);
+//     return parsedContacts;
+//   }
+//   return initialContacts;
+// };
 
 
 export const App = () => {
-  const [contacts, setContacts] = useState(getInitialContacts)
+  const [contacts, setContacts] = useState(()=>{
+    const savedContacts = window.localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(savedContacts);
+    return parsedContacts || initialContacts;
+  })
   const [filter, setFilter] = useState('')
 
   useEffect(() => {

@@ -1,32 +1,37 @@
 import PropTypes from 'prop-types';
-import { Component } from "react";
+import { useState } from 'react';
 import {FormAdd, Input, Btn} from './PhoneForm.style'
 
 
 
-export class PhoneForm extends Component{
-    state = {
-        name: '',
-        number: '',
+export const PhoneForm = ({onSubmit}) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+    
+    
+      const handleChange = ({ target }) => {
+        switch (target.name) {
+          case 'name':
+            setName(target.value);
+            break;
+
+            case 'number':
+              setNumber(target.value);
+            break;
+
+            default: return;
+        }
+        
       };
     
-      handleChange = ({ target }) => {
-        const { name, value } = target;
-        this.setState({
-          [name]: value,
-        });
-      };
-    
-      handleSubmit = e => {
+      const handleSubmit = e => {
         e.preventDefault();
-        this.props.onSubmit({ ...this.state }); //передает props родителю
-        this.setState({ name: '', number: '' }); //reset обнуляет input
+        onSubmit({name, number}); 
+        setName('')
+        setNumber('')
       };
     
     
-    render() {
-        const {handleChange, handleSubmit} = this;
-        const {name, number} = this.state;
         return (
            
 <FormAdd  onSubmit={handleSubmit}>
@@ -63,7 +68,7 @@ export class PhoneForm extends Component{
 
         )
     }
-}    
+  
 
 PhoneForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
